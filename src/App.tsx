@@ -7,6 +7,7 @@ import {
   Target, 
   Calendar,
   Brain,
+  BookOpen,
   Trophy,
   Globe
 } from 'lucide-react';
@@ -18,7 +19,12 @@ const translations = {
     dashboard: 'Dashboard',
     games: 'Games',
     logout: 'Logout',
-    
+
+    dashboardurl : 'http://localhost:5175/',
+    gamesurl : 'http://localhost:5175/',
+    logouturl : 'http://localhost:5173',
+
+
     // Welcome Section
     welcomeTo: 'Welcome to',
     tagline: 'Adventure Awaits! Continue your learning journey today.',
@@ -167,11 +173,11 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const navItems = [
-    { name: t.dashboard, icon: Home },
-    { name: t.games, icon: Gamepad2 },
-    { name: t.logout, icon: LogOut }
-  ];
+const navItems = [
+    { name: t.dashboard, icon: Home, url: '/dashboard' },
+    { name: t.games, icon: Gamepad2, url: '/games' },
+    { name: t.logout, icon: LogOut, url: '/logout' }
+];
 
   const DonutChart = () => {
     const completed = 56;
@@ -288,7 +294,7 @@ function App() {
         
         {/* Educational Icon Elements */}
         <div className="absolute top-24 left-1/4 text-blue-400/10 animate-float" style={{ animationDelay: '0s', animationDuration: '8s' }}>
-          <Brain className="w-16 h-16" />
+          <BookOpen className="w-16 h-16" />
         </div>
         <div className="absolute top-1/3 right-1/4 text-slate-400/10 animate-pulse" style={{ animationDelay: '2s' }}>
           <Trophy className="w-12 h-12 rotate-12" />
@@ -369,14 +375,14 @@ function App() {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <div className="flex-shrink-0 flex items-center">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
-                  <Brain className="w-5 h-5 text-white" />
-                </div>
-                <h1 className="ml-3 text-2xl font-bold bg-gradient-to-r from-blue-300 to-blue-400 bg-clip-text text-transparent">
-                  Gyaansagar
-                </h1>
+              <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-gradient-to-r from-[#415A77] to-[#778DA9] rounded-full flex items-center justify-center animate-pulse">
+                <BookOpen className="w-6 h-6 text-white" />
               </div>
+              <a className="text-2xl font-bold bg-gradient-to-r from-[#778DA9] to-[#E0E1DD] bg-clip-text text-transparent" href="http://localhost:5175/">
+                Gyaan Sagar
+              </a>
+            </div>
             </div>
 
             {/* Navigation Links and Language Selector */}
@@ -454,7 +460,7 @@ function App() {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="text-center md:text-left mb-4 md:mb-0">
               <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-                {t.welcomeTo} <span className="bg-gradient-to-r from-blue-300 to-blue-400 bg-clip-text text-transparent">Gyaansagar</span>
+                {t.welcomeTo} <span className=" font-bold bg-gradient-to-r from-[#778DA9] via-white to-[#E0E1DD] bg-clip-text text-transparent tracking-wide">Gyaansagar</span>
               </h1>
               <p className="text-lg text-slate-300 font-medium">
                 {t.tagline}
@@ -464,7 +470,7 @@ function App() {
             <div className="flex items-center gap-4">
               <div className="relative">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                  <Brain className="w-8 h-8 text-white" />
+                  <BookOpen className="w-8 h-8 text-white" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-slate-800 flex items-center justify-center">
                   <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
