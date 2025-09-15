@@ -51,9 +51,9 @@ const translations = {
     
     // Subjects
     mathematics: 'Mathematics',
-    science: 'Science',
-    history: 'History',
-    literature: 'Literature',
+    physics: 'Physics',
+    chemistry: 'Chemistry',
+    biology: 'Biology',
     
     // Recent Activity
     recentActivity: 'Recent Activity',
@@ -91,9 +91,9 @@ const translations = {
     
     // Subjects
     mathematics: 'गणित',
-    science: 'विज्ञान',
-    history: 'इतिहास',
-    literature: 'साहित्य',
+    physics: 'भौतिकी',
+    chemistry: 'रसायन विज्ञान',
+    biology: 'जीव विज्ञान',
     
     // Recent Activity
     recentActivity: 'हाल की गतिविधि',
@@ -131,9 +131,9 @@ const translations = {
     
     // Subjects
     mathematics: 'ଗଣିତ',
-    science: 'ବିଜ୍ଞାନ',
-    history: 'ଇତିହାସ',
-    literature: 'ସାହିତ୍ୟ',
+    physics: 'ପଦାର୍ଥ ବିଜ୍ଞାନ',
+    chemistry: 'ରସାୟନ ବିଜ୍ଞାନ',
+    biology: 'ଜୀବବିଜ୍ଞାନ',
     
     // Recent Activity
     recentActivity: 'ସାମ୍ପ୍ରତିକ କାର୍ଯ୍ୟକଳାପ',
@@ -153,9 +153,9 @@ function App() {
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [animatedValues, setAnimatedValues] = useState({
     math: 0,
-    science: 0,
-    history: 0,
-    literature: 0
+    physics: 0,
+    chemistry: 0,
+    biology: 0
   });
 
   const t = translations[currentLanguage];
@@ -165,9 +165,9 @@ function App() {
     const timer = setTimeout(() => {
       setAnimatedValues({
         math: 85,
-        science: 72,
-        history: 91,
-        literature: 67
+        physics: 72,
+        chemistry: 91,
+        biology: 67
       });
     }, 500);
     return () => clearTimeout(timer);
@@ -179,76 +179,81 @@ const navItems = [
     { name: t.logout, icon: LogOut, url: '/logout' }
 ];
 
-  const DonutChart = () => {
-    const completed = 56;
-    const inProgress = 19;
-    const total = 75;
-    
-    const completedPercentage = (completed / total) * 100;
-    const inProgressPercentage = (inProgress / total) * 100;
-    
-    const radius = 80;
-    const strokeWidth = 20;
-    const normalizedRadius = radius - strokeWidth / 2;
-    const circumference = normalizedRadius * 2 * Math.PI;
-    
-    const completedStrokeDasharray = `${(completedPercentage / 100) * circumference} ${circumference}`;
-    const inProgressStrokeDasharray = `${(inProgressPercentage / 100) * circumference} ${circumference}`;
-    const inProgressStrokeDashoffset = -((completedPercentage / 100) * circumference);
+const DonutChart = () => {
+  const completed = 56;
+  const inProgress = 19;
+  const total = 75;
 
-    return (
-      <div className="relative">
-        <svg
-          height={radius * 2}
-          width={radius * 2}
-          className="transform -rotate-90"
-        >
-          <circle
-            stroke="#1e293b"
-            fill="transparent"
-            strokeWidth={strokeWidth}
-            r={normalizedRadius}
-            cx={radius}
-            cy={radius}
-          />
-          <circle
-            stroke="#10b981"
-            fill="transparent"
-            strokeWidth={strokeWidth}
-            strokeDasharray={completedStrokeDasharray}
-            strokeLinecap="round"
-            r={normalizedRadius}
-            cx={radius}
-            cy={radius}
-            className="transition-all duration-1000 ease-out"
-          />
-          <circle
-            stroke="#3b82f6"
-            fill="transparent"
-            strokeWidth={strokeWidth}
-            strokeDasharray={inProgressStrokeDasharray}
-            strokeDashoffset={inProgressStrokeDashoffset}
-            strokeLinecap="round"
-            r={normalizedRadius}
-            cx={radius}
-            cy={radius}
-            className="transition-all duration-1000 ease-out"
-          />
-        </svg>
-        
-        <div className="mt-6 space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-green-400 text-sm font-medium">{t.completed}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <span className="text-blue-400 text-sm font-medium">{t.inProgress}</span>
-          </div>
+  const completedPercentage = (completed / total) * 100;
+  const inProgressPercentage = (inProgress / total) * 100;
+
+  const radius = 80;
+  const strokeWidth = 20;
+  const normalizedRadius = radius - strokeWidth / 2;
+  const circumference = normalizedRadius * 2 * Math.PI;
+
+  const completedStrokeDasharray = `${(completedPercentage / 100) * circumference} ${circumference}`;
+  const inProgressStrokeDasharray = `${(inProgressPercentage / 100) * circumference} ${circumference}`;
+  const inProgressStrokeDashoffset = -((completedPercentage / 100) * circumference);
+
+  const [tooltip, setTooltip] = useState(null);
+
+  return (
+    <div className="relative flex items-center justify-center">
+      {/* Tooltip */}
+      {tooltip && (
+        <div className="absolute -top-10 bg-gray-800 text-white text-sm px-3 py-1 rounded shadow">
+          {tooltip}
         </div>
-      </div>
-    );
-  };
+      )}
+
+      <svg height={radius * 2} width={radius * 2}>
+        {/* Background Circle */}
+        <circle
+          stroke="#333"
+          fill="transparent"
+          strokeWidth={strokeWidth}
+          r={normalizedRadius}
+          cx={radius}
+          cy={radius}
+        />
+
+        {/* Completed */}
+        <circle
+          stroke="#00C49F"
+          fill="transparent"
+          strokeWidth={strokeWidth}
+          strokeDasharray={completedStrokeDasharray}
+          strokeLinecap="round"
+          r={normalizedRadius}
+          cx={radius}
+          cy={radius}
+          onMouseEnter={() =>
+            setTooltip(`Completed: ${completedPercentage.toFixed(1)}%`)
+          }
+          onMouseLeave={() => setTooltip(null)}
+        />
+
+        {/* In Progress */}
+        <circle
+          stroke="#0088FE"
+          fill="transparent"
+          strokeWidth={strokeWidth}
+          strokeDasharray={inProgressStrokeDasharray}
+          strokeDashoffset={inProgressStrokeDashoffset}
+          strokeLinecap="round"
+          r={normalizedRadius}
+          cx={radius}
+          cy={radius}
+          onMouseEnter={() =>
+            setTooltip(`In Progress: ${inProgressPercentage.toFixed(1)}%`)
+          }
+          onMouseLeave={() => setTooltip(null)}
+        />
+      </svg>
+    </div>
+  );
+};
 
   const StatCard = ({ icon: Icon, title, value, unit, subtitle, color }) => (
     <div className="bg-slate-800/80 backdrop-blur-md rounded-2xl p-6 border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 hover:transform hover:scale-105 group shadow-xl hover:shadow-2xl">
@@ -469,11 +474,11 @@ const navItems = [
             
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                <div className="w-16 h-16 bg-gradient-to-r from-[#415A77] to-[#778DA9] rounded-full flex items-center justify-center border border-slate-700/50 shadow-2xl ">
                   <BookOpen className="w-8 h-8 text-white" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-slate-800 flex items-center justify-center">
-                  <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
+                  <div className="w-2 h-2 bg-gradient-to-r from-[#778DA9] to-[#E0E1DD] rounded-full animate-ping"></div>
                 </div>
               </div>
               <div className="text-right">
@@ -536,19 +541,19 @@ const navItems = [
             />
             
             <ProgressBar 
-              subject={t.science} 
+              subject={t.physics} 
               percentage={72} 
               animatedValue={animatedValues.science}
             />
             
             <ProgressBar 
-              subject={t.history} 
+              subject={t.chemistry} 
               percentage={91} 
               animatedValue={animatedValues.history}
             />
             
             <ProgressBar 
-              subject={t.literature} 
+              subject={t.biology} 
               percentage={67} 
               animatedValue={animatedValues.literature}
             />
